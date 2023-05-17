@@ -4,7 +4,10 @@ from django.db import models
 class Village(models.Model):
     village_name=models.CharField(max_length=70, blank=False, default='')
     description=models.CharField(max_length=100)
-    nation_id=models.IntegerField(max_length=5)
+    nation=models.CharField(max_length=100)
+    kage_name=models.CharField(max_length=50)
+    element=models.CharField(max_length=50)
+
    
 
 

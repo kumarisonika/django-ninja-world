@@ -11,7 +11,9 @@ class VillageSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'village_name',
                   'description',
-                  'nation_id')
+                  'nation',
+                  'kage_name',
+                  'element')
 
 class NationSerializer(serializers.ModelSerializer):
 
