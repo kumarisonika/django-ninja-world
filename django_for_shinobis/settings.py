@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'django_for_shinobis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ninja_world',
+        'NAME': 'fishbase',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
