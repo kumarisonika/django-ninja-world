@@ -9,25 +9,34 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 import uuid, hashlib
 from rest_framework import status
+from shinobiAPI.serializers import UserSerializer
 
 
 
 @api_view(['POST'])
 def sign_up(request):
     if request.method == 'POST':
-       input_data= JSONParser().parse(request)
-       print(input_data["username"],"kjvgdfgvui")
-       salt=uuid.uuid4().bytes
-       hash_password=hashlib.sha256(input_data["password"].encode()+salt).digest()
-       print(salt,hash_password,"kjkjsdghfudsgui")
-       return JsonResponse(input_data)
-    
+        user_data= JSONParser().parse(request)
+        user_object={}
+        user_object['username']=user_data["username"]
+        salt=uuid.uuid4().bytes
+        user_object['salt']=salt
+        hash_password=hashlib.sha256(user_data["password"].encode()+salt).digest()
+        user_object['hashed_password']=hash_password
+        user_serilizer= UserSerializer(data=user_object)
+        if user_serilizer.is_valid():
+            user_serilizer.save()
+            return JsonResponse(user_serilizer.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse(user_serilizer.errors, status=status.HTTP_400_BAD_REQUEST)
+       
+          
 @api_view(['POST'])
 def log_in(request):
     if request.method == 'POST':
-        input_data= JSONParser().parse(request)
+        user_data= JSONParser().parse(request)
         salt=b'\xe635o<eD{\xabH\xbakyV\xe2\x1d'
-        hash_password=hashlib.sha256(input_data["password"].encode()+salt).digest()
+        hash_password=hashlib.sha256(user_data["password"].encode()+salt).digest()
         if hash_password == b'3B.[\x8f\x9c\x8b]H\x1e\xa3(\xd0u\xfd\x9b\xd4=\xea\x0e\x84V~\x89\x98.O\xb9\xad\x15u\xae':
             return JsonResponse({"status":True,"message":"Login Successful"})
         else:
