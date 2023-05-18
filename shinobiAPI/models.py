@@ -17,6 +17,11 @@ class Nation(models.Model):
     kage_name=models.CharField(max_length=70, blank=False)
     description=models.CharField(max_length=100)
 
+class User(models.Model):
+    username=models.CharField(max_length=70, blank=False, )
+    salt=models.BinaryField(blank=False)
+    hashed_password=models.BinaryField(blank=False)
+
 
 
 
