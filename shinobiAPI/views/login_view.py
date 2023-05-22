@@ -10,10 +10,10 @@ from django.http.response import JsonResponse
 import uuid, hashlib
 from rest_framework import status
 from shinobiAPI.serializers import UserSerializer
+from shinobiAPI.models import User
 
 
-
-@api_view(['POST'])
+@api_view(['POST','GET'])
 def sign_up(request):
     if request.method == 'POST':
         user_data= JSONParser().parse(request)
@@ -26,7 +26,7 @@ def sign_up(request):
         user_serilizer= UserSerializer(data=user_object)
         if user_serilizer.is_valid():
             user_serilizer.save()
-            return JsonResponse(user_serilizer.data, status=status.HTTP_201_CREATED)
+            return JsonResponse({"status":True,"message":"Signup Successful"}, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(user_serilizer.errors, status=status.HTTP_400_BAD_REQUEST)
        
