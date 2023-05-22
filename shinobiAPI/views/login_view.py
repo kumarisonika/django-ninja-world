@@ -29,6 +29,10 @@ def sign_up(request):
             return JsonResponse({"status":True,"message":"Signup Successful"}, status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(user_serilizer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        users = User.objects.all()
+        user_serializer = UserSerializer(users, many=True)
+        return JsonResponse(user_serializer.data, safe=False)    
        
           
 @api_view(['POST'])
